@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finanzas Claras — De cero al control de tu dinero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --bg: #0E0B09;
+    --bg-alt: #15110E;
+    --surface: #1D1815;
+    --surface-2: #271F1A;
+    --border: #3A322A;
+    --border-soft: #2A2320;
+
+    --gold: #D9A85C;
+    --gold-bright: #F2C879;
+    --gold-deep: #9C6F2B;
+    --gold-glow: rgba(217,168,92,0.25);
+
+    --cream: #F6F0E4;
+    --muted: #B5AB9B;
+    --muted-2: #8B8174;
+
+    --green: #6FAE8B;
+    --rust: #C77B5A;
+    --plum: #9C8AC2;
+
+    --font-display: 'Fraunces', serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    --container: 1140px;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .container{
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  img{ max-width:100%; display:block; }
+
+  a{ color: inherit; text-decoration:none; }
+
+  ::selection{ background: var(--gold-glow); color: var(--cream); }
+
+  :focus-visible{
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* ============ TYPE ============ */
+  h1,h2,h3,h4{
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+  }
+
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .section-title{
+    font-size: clamp(28px, 4vw, 42px);
+    margin-top: 14px;
+  }
+
+  .section-lead{
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 620px;
+    margin-top: 14px;
+  }
+
+  .gold-text{
+    color: var(--gold-bright);
+  }
+
+  /* ============ LAYOUT HELPERS ============ */
+  section{
+    padding: 96px 0;
+    position: relative;
+  }
+
+  .section--alt{ background: var(--bg-alt); }
+
+  .header-block{
+    text-align: left;
+    margin-bottom: 56px;
+  }
+
+  .header-block.center{ text-align:center; margin-left:auto; margin-right:auto; }
+  .header-block.center .section-lead{ margin-left:auto; margin-right:auto; }
+
+  /* ============ BUTTONS ============ */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 15px 30px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    cursor:pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary{
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+    color: #1A1410;
+    box-shadow: 0 8px 24px -8px var(--gold-glow);
+  }
+  .btn-primary:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -8px var(--gold-glow);
+  }
+
+  .btn-secondary{
+    background: transparent;
+    color: var(--cream);
+    border-color: var(--border);
+  }
+  .btn-secondary:hover{
+    border-color: var(--gold);
+    color: var(--gold-bright);
+  }
+
+  .btn-block{ width:100%; }
+
+  /* ============ NAV ============ */
+  .nav{
+    position: sticky;
+    top:0;
+    z-index: 100;
+    background: rgba(14,11,9,0.78);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav .container{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height: 74px;
+  }
+  .nav__brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  .nav__mark{
+    width: 30px; height:30px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--gold-bright);
+  }
+  .nav__links{
+    display:flex;
+    align-items:center;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .nav__links a:hover{ color: var(--gold-bright); }
+  .nav__cta{ display:flex; }
+
+  @media (max-width: 760px){
+    .nav__links{ display:none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    padding: 84px 0 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-200px; right:-200px;
+    width:560px; height:560px;
+    background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+    pointer-events:none;
+  }
+  .hero .container{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items:center;
+  }
+  .hero__title{
+    font-size: clamp(40px, 6vw, 64px);
+    margin-top: 18px;
+  }
+  .hero__lead{
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 520px;
+    margin-top: 22px;
+  }
+  .hero__actions{
+    display:flex;
+    gap:16px;
+    margin-top: 34px;
+    flex-wrap: wrap;
+    align-items:center;
+  }
+  .hero__price{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-top: 28px;
+    font-family: var(--font-mono);
+  }
+  .hero__price-old{
+    color: var(--muted-2);
+    text-decoration: line-through;
+    font-size: 15px;
+  }
+  .hero__price-new{
+    color: var(--gold-bright);
+    font-size: 28px;
+    font-weight: 600;
+  }
+  .hero__price-tag{
+    color: var(--muted);
+    font-size: 13px;
+    margin-left: 4px;
+  }
+
+  /* Hero visual: ascending journey chart */
+  .hero__visual{
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px 24px;
+  }
+  .hero__visual-label{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    margin-bottom: 18px;
+  }
+  .hero__chart-path{
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: draw 2.2s ease-out 0.3s forwards;
+  }
+  .hero__chart-glow{
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: draw 2.2s ease-out 0.3s forwards;
+  }
+  @keyframes draw{
+    to{ stroke-dashoffset: 0; }
+  }
+  .hero__chart-dot{
+    opacity:0;
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  .hero__chart-dot:nth-of-type(1){ animation-delay: 0.6s; }
+  .hero__chart-dot:nth-of-type(2){ animation-delay: 1.3s; }
+  .hero__chart-dot:nth-of-type(3){ animation-delay: 2.2s; }
+  @keyframes fadeIn{
+    to{ opacity:1; }
+  }
+  .hero__chart-text{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    fill: var(--muted);
+  }
+  .hero__chart-text.gold{ fill: var(--gold-bright); font-weight: 600; }
+
+  @media (max-width: 900px){
+    .hero .container{ grid-template-columns: 1fr; }
+    .hero__visual{ order:-1; }
+  }
+
+  /* ============ PAIN POINTS ============ */
+  .pain__grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .pain-card{
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .pain-card:hover{
+    border-color: var(--gold-deep);
+    transform: translateY(-3px);
+  }
+  .pain-card__icon{
+    width:40px; height:40px;
+    margin-bottom: 18px;
+  }
+  .pain-card h3{
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .pain-card p{
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+  @media (max-width: 980px){
+    .pain__grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px){
+    .pain__grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ============ PROGRAM / JOURNEY ============ */
+  .program__steps{
+    position: relative;
+    display:flex;
+    flex-direction:column;
+    gap: 48px;
+    max-width: 820px;
+    margin-top: 8px;
+  }
+  .program__steps::before{
+    content:"";
+    position:absolute;
+    left: 34px;
+    top: 34px;
+    bottom: 34px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold-deep), var(--border-soft));
+  }
+  .program__step{
+    position:relative;
+    display:grid;
+    grid-template-columns: 70px 1fr;
+    gap: 28px;
+    align-items:flex-start;
+  }
+  .program__step-num{
+    width: 70px; height:70px;
+    border-radius:50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--gold-bright);
+    z-index:1;
+  }
+  .program__step-content h3{
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .program__step-content .program__step-name{
+    font-size: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+    display:block;
+    margin-bottom: 10px;
+  }
+  .program__step-content p{
+    color: var(--muted);
+    font-size: 15.5px;
+    max-width: 600px;
+  }
+  @media (max-width: 640px){
+    .program__step{ grid-template-columns: 52px 1fr; gap:18px; }
+    .program__step-num{ width:52px; height:52px; font-size:20px; }
+    .program__steps::before{ left:25px; }
+  }
+
+  /* ============ TRANSFORMATION ============ */
+  .transformation{
+    text-align:center;
+  }
+  .transformation .container{
+    max-width: 820px;
+  }
+  .transformation__mark{
+    font-family: var(--font-display);
+    font-size: 64px;
+    color: var(--gold-deep);
+    line-height: 1;
+  }
+  .transformation blockquote{
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3.4vw, 36px);
+    font-weight: 500;
+    line-height: 1.4;
+    margin-top: 8px;
+  }
+  .transformation blockquote .gold-text{
+    font-style: italic;
+  }
+  .transformation__caption{
+    margin-top: 28px;
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ============ TESTIMONIALS ============ */
+  .testimonials__grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .testimonial-card{
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 26px;
+    display:flex;
+    flex-direction:column;
+  }
+  .testimonial-card__stars{
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .testimonial-card p{
+    color: var(--muted);
+    font-size: 14.5px;
+    flex-grow:1;
+  }
+  .testimonial-card__author{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+  }
+  .testimonial-card__avatar{
+    width:38px; height:38px;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--gold-deep), var(--surface-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-display);
+    font-size: 14px;
+    color: var(--gold-bright);
+    flex-shrink:0;
+  }
+  .testimonial-card__name{ font-size: 14px; font-weight:600; }
+  .testimonial-card__role{ font-size: 12.5px; color: var(--muted-2); }
+
+  @media (max-width: 900px){
+    .testimonials__grid{ grid-template-columns: 1fr; }
+  }
+
+  /* ============ PRICING ============ */
+  .pricing .container{
+    max-width: 640px;
+    text-align:center;
+  }
+  .pricing__card{
+    margin-top: 44px;
+    background: linear-gradient(160deg, var(--surface), var(--bg-alt));
+    border: 1px solid var(--gold-deep);
+    border-radius: 20px;
+    padding: 44px 36px;
+    box-shadow: 0 20px 60px -30px var(--gold-glow);
+    position:relative;
+    overflow:hidden;
+  }
+  .pricing__badge{
+    display:inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform:uppercase;
+    color: var(--gold-bright);
+    border: 1px solid var(--gold-deep);
+    border-radius: 999px;
+    padding: 6px 16px;
+    margin-bottom: 22px;
+  }
+  .pricing__price-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:center;
+    gap: 14px;
+    font-family: var(--font-mono);
+  }
+  .pricing__price-old{
+    font-size: 22px;
+    color: var(--muted-2);
+    text-decoration: line-through;
+  }
+  .pricing__price-new{
+    font-size: 52px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    font-family: var(--font-display);
+  }
+  .pricing__price-note{
+    color: var(--muted);
+    font-size: 13.5px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+  }
+  .pricing__features{
+    list-style:none;
+    margin: 32px 0;
+    text-align:left;
+    display:inline-block;
+  }
+  .pricing__features li{
+    display:flex;
+    align-items:flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    color: var(--cream);
+    font-size: 15px;
+  }
+  .pricing__features li svg{
+    width:18px; height:18px;
+    flex-shrink:0;
+    margin-top: 2px;
+    stroke: var(--green);
+  }
+  .pricing__fineprint{
+    margin-top: 18px;
+    color: var(--muted-2);
+    font-size: 12.5px;
+  }
+
+  /* ============ FAQ ============ */
+  .faq .container{ max-width: 760px; }
+  .faq__list{ margin-top: 8px; }
+  .faq__item{
+    border-bottom: 1px solid var(--border-soft);
+    padding: 22px 0;
+  }
+  .faq__item summary{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 20px;
+    cursor:pointer;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    list-style:none;
+  }
+  .faq__item summary::-webkit-details-marker{ display:none; }
+  .faq__item summary::after{
+    content:"+";
+    font-family: var(--font-mono);
+    font-size: 20px;
+    color: var(--gold);
+    flex-shrink:0;
+    transition: transform 0.2s ease;
+  }
+  .faq__item[open] summary::after{ content:"−"; }
+  .faq__item p{
+    color: var(--muted);
+    font-size: 15px;
+    margin-top: 14px;
+    max-width: 640px;
+  }
+
+  /* ============ FOOTER ============ */
+  .footer{
+    border-top: 1px solid var(--border-soft);
+    padding: 48px 0;
+    text-align:center;
+  }
+  .footer__brand{
+    font-family: var(--font-display);
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  .footer p{
+    color: var(--muted-2);
+    font-size: 13.5px;
+  }
+  .footer__legal{
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+
+  /* COMPONENT_STYLES_END */
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <div class="nav__brand">
+      <span class="nav__mark">FC</span>
+      Finanzas Claras
+    </div>
+    <div class="nav__links">
+      <a href="#programa">Programa</a>
+      <a href="https://glittering-profit-flow-go.base44.app" target="_blank" rel="noopener noreferrer">Calculadora gratis</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#precio">Precio</a>
+    </div>
+    <div class="nav__cta">
+      <a href="https://www.udemy.com/course/finanzas-claras/?referralCode=04760C1C6EE856D6BBCC" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Quiero empezar</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero__content">
+      <span class="eyebrow">Curso online · Finanzas personales e inversión</span>
+      <h1 class="hero__title">Finanzas Claras</h1>
+      <p class="hero__lead">
+        Aprendé a entender tu dinero, organizá la economía de tu casa con herramientas que sí funcionan
+        y dá tus primeros pasos en el mundo de las inversiones — sin conocimientos previos, paso a paso.
+      </p>
+      <div class="hero__actions">
+        <a href="https://www.udemy.com/course/finanzas-claras/?referralCode=04760C1C6EE856D6BBCC" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Quiero empezar ahora</a>
+        <a href="#programa" class="btn btn-secondary">Ver el programa</a>
+        <a href="https://glittering-profit-flow-go.base44.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">CALCULADORA GRATIS</a>
+      </div>
+      <div class="hero__price">
+        <span class="hero__price-old">US$59,98</span>
+        <span class="hero__price-new">US$29,99</span>
+        <span class="hero__price-tag">· 50% OFF ya aplicado</span>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="hero__visual-label">Tu recorrido en Finanzas Claras</div>
+      <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gráfico que representa el recorrido del curso, ascendiendo de fundamentos a inversiones">
+        <defs>
+          <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#D9A85C"/>
+            <stop offset="100%" stop-color="#F2C879"/>
+          </linearGradient>
+        </defs>
+        <!-- grid -->
+        <g stroke="#3A322A" stroke-width="1">
+          <line x1="30" y1="40" x2="30" y2="250"/>
+          <line x1="30" y1="250" x2="430" y2="250"/>
+          <line x1="30" y1="180" x2="430" y2="180" stroke-dasharray="2 6" opacity="0.5"/>
+          <line x1="30" y1="110" x2="430" y2="110" stroke-dasharray="2 6" opacity="0.5"/>
+        </g>
+        <!-- glow path -->
+        <path class="hero__chart-glow" d="M50,225 C120,225 150,170 200,155 C260,140 300,75 410,55"
+          fill="none" stroke="var(--gold-glow)" stroke-width="14" stroke-linecap="round"/>
+        <!-- main path -->
+        <path class="hero__chart-path" d="M50,225 C120,225 150,170 200,155 C260,140 300,75 410,55"
+          fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round"/>
+        <!-- points -->
+        <circle class="hero__chart-dot" cx="50" cy="225" r="5" fill="#D9A85C"/>
+        <circle class="hero__chart-dot" cx="200" cy="155" r="5" fill="#D9A85C"/>
+        <circle class="hero__chart-dot" cx="410" cy="55" r="5" fill="#F2C879"/>
+        <!-- labels -->
+        <text class="hero__chart-text" x="32" y="270">Etapa 1</text>
+        <text class="hero__chart-text" x="185" y="270">Etapa 2</text>
+        <text class="hero__chart-text" x="355" y="270">Etapa 3</text>
+        <text class="hero__chart-text" x="18" y="222">Fundamentos</text>
+        <text class="hero__chart-text" x="160" y="142">Herramientas</text>
+        <text class="hero__chart-text gold" x="305" y="42">Inversión</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="pain section--alt">
+  <div class="container">
+    <div class="header-block center">
+      <span class="eyebrow">¿Te suena familiar?</span>
+      <h2 class="section-title">La mayoría nunca aprendió esto</h2>
+      <p class="section-lead">
+        Nadie nos enseña a manejar el dinero en la escuela. El resultado: decisiones a ciegas,
+        presupuestos abandonados y oportunidades que pasan de largo.
+      </p>
+    </div>
+    <div class="pain__grid">
+      <div class="pain-card">
+        <svg class="pain-card__icon" viewBox="0 0 40 40" fill="none" stroke="#D9A85C" stroke-width="1.6">
+          <circle cx="20" cy="20" r="17"/>
+          <path d="M15 16c0-3 2.5-5 5-5s5 2 5 5c0 3-5 4-5 8" stroke-linecap="round"/>
+          <circle cx="20" cy="29" r="0.8" fill="#D9A85C"/>
+        </svg>
+        <h3>Fin de mes, sorpresa</h3>
+        <p>Llegás a fin de mes sin saber bien en qué se fue la plata, otra vez.</p>
+      </div>
+      <div class="pain-card">
+        <svg class="pain-card__icon" viewBox="0 0 40 40" fill="none" stroke="#D9A85C" stroke-width="1.6">
+          <rect x="8" y="6" width="24" height="28" rx="2"/>
+          <path d="M14 14h12M14 20h12M14 26h7"/>
+          <path d="M26 26l5 5M31 26l-5 5" stroke="#C77B5A"/>
+        </svg>
+        <h3>El Excel abandonado</h3>
+        <p>Armaste una planilla de gastos varias veces… y la dejaste a la semana.</p>
+      </div>
+      <div class="pain-card">
+        <svg class="pain-card__icon" viewBox="0 0 40 40" fill="none" stroke="#D9A85C" stroke-width="1.6">
+          <rect x="9" y="17" width="22" height="15" rx="2"/>
+          <path d="M14 17v-3a6 6 0 0112 0v3"/>
+          <circle cx="20" cy="24" r="2" fill="#D9A85C" stroke="none"/>
+        </svg>
+        <h3>Invertir parece "para otros"</h3>
+        <p>La palabra "inversión" suena lejana, riesgosa o solo para expertos.</p>
+      </div>
+      <div class="pain-card">
+        <svg class="pain-card__icon" viewBox="0 0 40 40" fill="none" stroke="#D9A85C" stroke-width="1.6">
+          <path d="M8 24c0-7 5-12 13-12 5 0 8 2 10 4l-3 3"/>
+          <path d="M28 11v5h5"/>
+          <circle cx="15" cy="22" r="1" fill="#D9A85C" stroke="none"/>
+          <path d="M8 24c0 4 3 8 9 8 5 0 8-2 9-5" stroke-dasharray="2 3"/>
+        </svg>
+        <h3>Plata que no trabaja</h3>
+        <p>Tenés algo ahorrado, pero está quieto, sin generar absolutamente nada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="program" id="programa">
+  <div class="container">
+    <div class="header-block">
+      <span class="eyebrow">El programa</span>
+      <h2 class="section-title">Un camino, tres etapas</h2>
+      <p class="section-lead">
+        La teoría y la práctica se fusionan en cada etapa para llevarte de "no sé por dónde empezar"
+        a "tengo el control y entiendo cómo invertir".
+      </p>
+    </div>
+
+    <div class="program__steps">
+      <div class="program__step">
+        <div class="program__step-num">I</div>
+        <div class="program__step-content">
+          <span class="program__step-name">Etapa 1</span>
+          <h3>Fundamentos sólidos</h3>
+          <p>
+            Construimos una base firme aprendiendo los conceptos teóricos básicos de las finanzas:
+            cómo se comporta el dinero y cómo funciona la economía dentro de tu propio hogar.
+          </p>
+        </div>
+      </div>
+
+      <div class="program__step">
+        <div class="program__step-num">II</div>
+        <div class="program__step-content">
+          <span class="program__step-name">Etapa 2</span>
+          <h3>Herramientas prácticas y poderosas</h3>
+          <p>
+            No nos quedamos solo en la teoría. Vas a aprender a usar herramientas clave para
+            gestionar la economía de tu hogar y poner a prueba lo aprendido con ejercicios
+            y dinámicas 100% prácticas.
+          </p>
+        </div>
+      </div>
+
+      <div class="program__step">
+        <div class="program__step-num">III</div>
+        <div class="program__step-content">
+          <span class="program__step-name">Etapa 3</span>
+          <h3>Introducción al mundo de las inversiones</h3>
+          <p>
+            Damos el siguiente paso para hacer crecer tu capital: los conceptos fundamentales
+            para introducirte con confianza en el mercado de capitales y aprender cómo poner
+            tu dinero a trabajar de forma inteligente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="transformation section--alt">
+  <div class="container">
+    <div class="transformation__mark">"</div>
+    <blockquote>
+      Al finalizar este curso vas a saber <span class="gold-text">exactamente a dónde va tu dinero</span>,
+      vas a tener las habilidades prácticas para tomar el control de tu presupuesto familiar
+      y vas a dar tus <span class="gold-text">primeros pasos en el mundo de las inversiones</span>.
+    </blockquote>
+    <div class="transformation__caption">— Lo que te llevás de Finanzas Claras</div>
+  </div>
+</section>
+
+<section class="testimonials section--alt" id="opiniones">
+  <div class="container">
+    <div class="header-block center">
+      <span class="eyebrow">Opiniones</span>
+      <h2 class="section-title">Alumnos que ya dieron el primer paso</h2>
+      <p class="section-lead">
+        Esto es lo que cuentan quienes empezaron desde cero, igual que vos.
+      </p>
+    </div>
+    <!-- Testimonios de ejemplo: reemplazar por opiniones reales de tus alumnos -->
+    <div class="testimonials__grid">
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p>"Nunca había hecho un presupuesto en mi vida. Con las herramientas del curso armé el mío en un fin de semana y por primera vez sé a dónde va cada peso."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">M</div>
+          <div>
+            <div class="testimonial-card__name">Marina G.</div>
+            <div class="testimonial-card__role">Alumna — Etapa 2</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p>"Siempre pensé que invertir era para gente con mucha plata o mucho conocimiento. La tercera etapa me sacó ese miedo y ahora entiendo de qué hablan cuando mencionan el mercado de capitales."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">L</div>
+          <div>
+            <div class="testimonial-card__name">Leandro P.</div>
+            <div class="testimonial-card__role">Alumno — Etapa 3</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-card__stars">★★★★★</div>
+        <p>"Lo que más valoro es que no es solo teoría. Cada concepto viene con un ejercicio para aplicarlo a tu propia economía. Se entiende todo, explicado de forma muy clara."</p>
+        <div class="testimonial-card__author">
+          <div class="testimonial-card__avatar">C</div>
+          <div>
+            <div class="testimonial-card__name">Camila R.</div>
+            <div class="testimonial-card__role">Alumna — Curso completo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="precio">
+  <div class="container">
+    <span class="eyebrow">Inscribite hoy</span>
+    <h2 class="section-title">Empezá a tomar el control de tu economía</h2>
+    <p class="section-lead" style="margin-left:auto;margin-right:auto;">
+      Acceso completo a las tres etapas de Finanzas Claras, a tu propio ritmo.
+    </p>
+
+    <div class="pricing__card">
+      <span class="pricing__badge">50% de descuento ya aplicado</span>
+      <div class="pricing__price-row">
+        <span class="pricing__price-old">US$59,98</span>
+        <span class="pricing__price-new">US$29,99</span>
+      </div>
+      <div class="pricing__price-note">Pago único · acceso al curso completo · precio final con descuento</div>
+
+      <ul class="pricing__features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Las 3 etapas completas: fundamentos, herramientas e inversión
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Ejercicios y dinámicas 100% prácticas para tu propia economía
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Pensado para arrancar desde cero, sin conocimientos previos
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Acceso a tu propio ritmo, desde donde quieras
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Bonus: calculadora <strong>CalcuNegocio</strong>, gratis
+        </li>
+      </ul>
+
+      <a href="https://www.udemy.com/course/finanzas-claras/?referralCode=04760C1C6EE856D6BBCC" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-block">Inscribirme ahora — US$29,99</a>
+      <p class="pricing__fineprint">El precio de lista es US$59,98. El valor que ves, US$29,99, ya incluye el 50% de descuento aplicado.</p>
+    </div>
+  </div>
+</section>
+
+<section class="faq section--alt">
+  <div class="container">
+    <div class="header-block center">
+      <span class="eyebrow">Preguntas frecuentes</span>
+      <h2 class="section-title">Antes de empezar</h2>
+    </div>
+    <div class="faq__list">
+      <details class="faq__item" open>
+        <summary>¿Necesito saber de finanzas o economía para hacer este curso?</summary>
+        <p>No. Finanzas Claras está pensado para arrancar desde cero, sin conocimientos previos. La etapa 1 construye toda la base que vas a necesitar para el resto del curso.</p>
+      </details>
+      <details class="faq__item">
+        <summary>¿El curso es solo teoría?</summary>
+        <p>No. La teoría se combina con herramientas, ejercicios y dinámicas 100% prácticas para que apliques cada concepto directamente a la economía de tu casa.</p>
+      </details>
+      <details class="faq__item">
+        <summary>¿Voy a aprender a invertir de una vez?</summary>
+        <p>La etapa 3 te da los conceptos fundamentales para introducirte con confianza en el mercado de capitales y dar tus primeros pasos como inversor — la base para seguir creciendo después del curso.</p>
+      </details>
+      <details class="faq__item">
+        <summary>¿Por qué el precio aparece como US$29,99?</summary>
+        <p>El precio de lista del curso es US$59,98. El valor de US$29,99 ya tiene aplicado un descuento del 50%.</p>
+      </details>
+      <details class="faq__item">
+        <summary>¿Y la calculadora CalcuNegocio?</summary>
+        <p>Es una herramienta gratuita, no necesitás comprar el curso ni registrarte para usarla. La encontrás en el botón "Calculadora gratis" del menú, te lleva directo a la app.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__brand">Finanzas Claras</div>
+    <p>Educación financiera clara, práctica y sin vueltas — de cero al control de tu dinero.</p>
+    <p style="margin-top:6px;">Probá también CalcuNegocio, nuestra calculadora gratuita de costos, punto de equilibrio y rentabilidad.</p>
+    <div class="footer__legal">© 2026 Finanzas Claras</div>
+  </div>
+</footer>
+
+</body>
+</html>
